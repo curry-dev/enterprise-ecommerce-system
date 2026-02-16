@@ -1,19 +1,36 @@
-A Vendor cannot sell without approval.
+1. A Vendor cannot sell without approval.
 
-A Vendor_Product must belong to one Product.
+2. A Vendor_Product must belong to one Product.
 
-Inventory cannot go below zero.
+3. Inventory cannot go below zero.
 
-Cart items expire after X hours.
+4. Orders are immutable after payment.
 
-Order items must store price snapshot.
+5. Order items must store price snapshot.
 
-One Order may generate multiple Shipments.
+6. One Order may generate multiple Shipments.
 
-A user cannot review a product they didn’t purchase.
+7. A user cannot review a product they didn’t purchase.
 
-Coupon rules depend on vendor or global scope.
 
-Vendor_Product can be deactivated without deleting historical data.
 
-Orders are immutable after payment.
+vendor.status
+1. PENDING → applied but not reviewed
+2. APPROVED → allowed to list products
+3. SUSPENDED → temporarily blocked
+4. REJECTED → permanently denied
+Only vendors with APPROVED status can create Vendor_Product listings.
+
+
+vendor_product.condition
+1. NEW
+2. USED
+3. REFURBISHED
+4. DAMAGED
+
+vendor_product.status
+1. ACTIVE
+2. INACTIVE
+3. OUT_OF_STOCK
+4. REMOVED
+5. BLOCKED

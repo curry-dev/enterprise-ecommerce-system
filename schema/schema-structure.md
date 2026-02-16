@@ -1,20 +1,23 @@
-Catalog Service
-Product
-Category
-Product_Category
+CATALOG
+1. Product
+2. Category
+3. Product_Category
 
-Vendor Service
-Vendor_Profile
-Vendor_Product
-Inventory
+VENDOR
+1. Vendor
+2. Vendor_Product
+3. Inventory
+4. review
 
-Order Service
-Order
-Order_Item
-Payment
-Shipment
+ORDER
+1. Order
+2. Order_Item
+3. Payment
+4. Shipment
+5. cart
+6. cart_item
 
-User Service
-User
-Role
-Address
+USER
+1. User
+2. Role
+3. Address
