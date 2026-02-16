@@ -1,0 +1,19 @@
+A Vendor cannot sell without approval.
+
+A Vendor_Product must belong to one Product.
+
+Inventory cannot go below zero.
+
+Cart items expire after X hours.
+
+Order items must store price snapshot.
+
+One Order may generate multiple Shipments.
+
+A user cannot review a product they didn’t purchase.
+
+Coupon rules depend on vendor or global scope.
+
+Vendor_Product can be deactivated without deleting historical data.
+
+Orders are immutable after payment.
