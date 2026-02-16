@@ -1,8 +1,42 @@
+ALTER DATABASE ecommerce_system
+SET SINGLE_USER
+WITH ROLLBACK IMMEDIATE;
+GO
+DROP DATABASE ecommerce_system;
+GO
+EXEC SP_WHO2;
+GO
+
+---------------------------------------------------------------------------------------------------------------------------
+
+USE master;
+GO
+ALTER DATABASE ecommerce_system SET MULTI_USER;
+GO
+
+---------------------------------------------------------------------------------------------------------------------------
+
+SELECT name, user_access_desc
+FROM sys.databases
+WHERE name = 'ecommerce_system';
+GO
+SELECT DB_NAME();
+GO
+USE ecommerce_system;
+
+---------------------------------------------------------------------------------------------------------------------------
+
+CREATE DATABASE ecommerce_system;
+USE ecommerce_system;
+GO
+
+---------------------------------------------------------------------------------------------------------------------------
+
 CREATE SCHEMA production;
 GO
 
 CREATE TABLE production.product (
-    product_id INT PRIMARY KEY,
+    product_id INT IDENTITY(1, 1) PRIMARY KEY,
     name VARCHAR(100) NOT NULL,
     description VARCHAR(200),
     brand VARCHAR(50),
@@ -11,7 +45,7 @@ CREATE TABLE production.product (
 );
 
 CREATE TABLE production.category (
-    category_id INT PRIMARY KEY,
+    category_id INT IDENTITY(1, 1) PRIMARY KEY,
     name VARCHAR(50) NOT NULL,
     description VARCHAR(200)
 );
@@ -32,12 +66,12 @@ CREATE SCHEMA users;
 GO
 
 CREATE TABLE users.role (
-    role_id INT PRIMARY KEY,
+    role_id INT IDENTITY(1, 1) PRIMARY KEY,
     type VARCHAR(50) NOT NULL
 );
 
 CREATE TABLE users.users (
-    user_id INT PRIMARY KEY,
+    user_id INT IDENTITY(1, 1) PRIMARY KEY,
     first_name VARCHAR(50) NOT NULL,
     last_name VARCHAR(50) NOT NULL,
     email VARCHAR(100) NOT NULL UNIQUE,
@@ -50,7 +84,7 @@ CREATE TABLE users.users (
 );
 
 CREATE TABLE users.address (
-    address_id INT PRIMARY KEY,
+    address_id INT IDENTITY(1, 1) PRIMARY KEY,
     user_id INT NOT NULL,
     apartment VARCHAR(100),
     street VARCHAR(100),
@@ -68,7 +102,7 @@ CREATE SCHEMA vendor;
 GO
 
 CREATE TABLE vendor.vendor (
-    vendor_id INT PRIMARY KEY,
+    vendor_id INT IDENTITY(1, 1) PRIMARY KEY,
     user_id INT NOT NULL UNIQUE,
     name VARCHAR(100) NOT NULL,
     status VARCHAR(20) DEFAULT 'PENDING' CHECK (status IN ('PENDING', 'APPROVED', 'SUSPENDED', 'REJECTED')),
@@ -77,7 +111,7 @@ CREATE TABLE vendor.vendor (
 );
 
 CREATE TABLE vendor.vendor_product (
-    vendor_product_id INT PRIMARY KEY,
+    vendor_product_id INT IDENTITY(1, 1) PRIMARY KEY,
     vendor_id INT NOT NULL,
     product_id INT NOT NULL,
     price DECIMAL(10,2) NOT NULL,
@@ -90,7 +124,7 @@ CREATE TABLE vendor.vendor_product (
 );
 
 CREATE TABLE vendor.inventory (
-    inventory_id INT PRIMARY KEY,
+    inventory_id INT IDENTITY(1, 1) PRIMARY KEY,
     vendor_product_id INT NOT NULL UNIQUE,
     quantity_available INT DEFAULT 0 CHECK (quantity_available >= 0),
     last_updated DATETIME DEFAULT GETDATE(),
@@ -98,7 +132,7 @@ CREATE TABLE vendor.inventory (
 );
 
 CREATE TABLE vendor.review (
-    review_id INT PRIMARY KEY,
+    review_id INT IDENTITY(1, 1) PRIMARY KEY,
     user_id INT NOT NULL,
     vendor_product_id INT NOT NULL,
     rating INT CHECK (rating BETWEEN 1 AND 5),
@@ -116,14 +150,14 @@ CREATE SCHEMA orders;
 GO
 
 CREATE TABLE orders.orders (
-    order_id INT PRIMARY KEY,
+    order_id INT IDENTITY(1, 1) PRIMARY KEY,
     user_id INT NOT NULL,
     created_at DATETIME DEFAULT GETDATE(),
     FOREIGN KEY (user_id) REFERENCES users.users(user_id)
 );
 
 CREATE TABLE orders.order_item (
-    order_item_id INT PRIMARY KEY,
+    order_item_id INT IDENTITY(1, 1) PRIMARY KEY,
     order_id INT NOT NULL,
     vendor_product_id INT NOT NULL,
     price_at_purchase DECIMAL(10,2) NOT NULL,
@@ -133,7 +167,7 @@ CREATE TABLE orders.order_item (
 );
 
 CREATE TABLE orders.payment (
-    payment_id INT PRIMARY KEY,
+    payment_id INT IDENTITY(1, 1) PRIMARY KEY,
     order_id INT NOT NULL,
     amount DECIMAL(10,2) NOT NULL,
     method VARCHAR(50),
@@ -144,7 +178,7 @@ CREATE TABLE orders.payment (
 );
 
 CREATE TABLE orders.shipment (
-    shipment_id INT PRIMARY KEY,
+    shipment_id INT IDENTITY(1, 1) PRIMARY KEY,
     order_id INT NOT NULL,
     vendor_id INT NOT NULL,
     status VARCHAR(20) DEFAULT 'PENDING' CHECK (status IN ('PENDING', 'DELIVERED', 'LOST', 'REFUNDED')),
@@ -156,7 +190,7 @@ CREATE TABLE orders.shipment (
 );
 
 CREATE TABLE orders.cart (
-    cart_id INT PRIMARY KEY,
+    cart_id INT IDENTITY(1, 1) PRIMARY KEY,
     user_id INT NOT NULL UNIQUE,
     created_at DATETIME DEFAULT GETDATE(),
     updated_at DATETIME DEFAULT GETDATE(),
@@ -164,7 +198,7 @@ CREATE TABLE orders.cart (
 );
 
 CREATE TABLE orders.cart_item (
-    cart_item_id INT PRIMARY KEY,
+    cart_item_id INT IDENTITY(1, 1) PRIMARY KEY,
     cart_id INT NOT NULL,
     vendor_product_id INT NOT NULL,
     quantity INT DEFAULT 1,
