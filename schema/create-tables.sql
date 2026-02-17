@@ -156,6 +156,17 @@ CREATE TABLE orders.orders (
     FOREIGN KEY (user_id) REFERENCES users.users(user_id)
 );
 
+ALTER TABLE orders.orders ADD cart_id INT NOT NULL DEFAULT -1;
+ALTER TABLE orders.orders ADD FOREIGN KEY (cart_id) REFERENCES orders.cart(cart_id);
+SELECT * FROM orders.orders;
+
+DECLARE @counter INT = 1
+WHILE @counter <= 10
+BEGIN
+UPDATE orders.orders SET cart_id = @counter WHERE order_id = @counter
+SET @counter = @counter + 1
+END
+
 CREATE TABLE orders.order_item (
     order_item_id INT IDENTITY(1, 1) PRIMARY KEY,
     order_id INT NOT NULL,
@@ -171,7 +182,7 @@ CREATE TABLE orders.payment (
     order_id INT NOT NULL,
     amount DECIMAL(10,2) NOT NULL,
     method VARCHAR(50),
-    status VARCHAR(20) DEFAULT 'PENDING' CHECK (status IN ('PENDING', 'COMPLETE')),
+    status VARCHAR(20) DEFAULT 'PENDING' CHECK (status IN ('PENDING', 'COMPLETE', 'FAILED', 'REFUNDED')),
     reference_number VARCHAR(50),
     created_at DATETIME DEFAULT GETDATE(),
     FOREIGN KEY (order_id) REFERENCES orders.orders(order_id)
