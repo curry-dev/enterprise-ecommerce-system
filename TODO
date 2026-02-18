@@ -2,13 +2,9 @@
 2. ✅ make ERDs
 3. ✅ define scenarios
 4. ✅ populate tables
-
 5. trigger: when DML executed, update audit_log
-
 6. put a isInserted flag in audit table, default 1, in trigger put isInserted = 0 for INSTEAD OF INSERT
 7. truncate audit weekly
-
 8. ✅ fragmentation: create a sp, ask for tablename and find frag and fix it 
-9. sp: data profiling and data quality/cleaning: tabvar, temptab, dsql, error handling
-
+9. ✅ sp: data profiling and data quality/cleaning: tabvar, temptab, dsql, error handling
 10. trigger: if there are no items in cart, delete it
